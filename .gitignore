@@ -86,8 +86,8 @@ data/
 .idea
 
 # custom Sentry config
-sentry/sentry.conf.py
-sentry/config.yml
+# Note: sentry.conf.py and config.yml are tracked for Railway deployment
+# (they use env vars instead of hardcoded secrets)
 sentry/*.bak
 sentry/backup.json
 sentry/enhance-image.sh
