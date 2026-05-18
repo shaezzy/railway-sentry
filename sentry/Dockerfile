@@ -13,3 +13,12 @@ RUN if [ -s /usr/src/sentry/requirements.txt ]; then \
     echo "sentry/requirements.txt is deprecated, use sentry/enhance-image.sh - see https://develop.sentry.dev/self-hosted/#enhance-sentry-image"; \
     pip install -r /usr/src/sentry/requirements.txt; \
     fi
+
+# On Railway there is no bind mount for ./sentry:/etc/sentry, so copy the
+# config files directly into the image. entrypoint.sh is already provided
+# by the base image at /docker-entrypoint.sh (sourced by /etc/sentry/entrypoint.sh).
+RUN mkdir -p /etc/sentry
+COPY sentry.conf.py /etc/sentry/sentry.conf.py
+COPY config.yml /etc/sentry/config.yml
+COPY entrypoint.sh /etc/sentry/entrypoint.sh
+RUN chmod +x /etc/sentry/entrypoint.sh

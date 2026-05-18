@@ -143,6 +143,8 @@ SENTRY_AIR_GAP = False
 # are available in public GitHub repositories.
 
 _seaweedfs_url = env("SEAWEEDFS_URL", "http://seaweedfs:8333")
+_seaweedfs_access_key = env("SEAWEEDFS_ACCESS_KEY", "sentry")
+_seaweedfs_secret_key = env("SEAWEEDFS_SECRET_KEY", "sentry")
 
 SENTRY_NODESTORE = "sentry_nodestore_s3.S3PassthroughDjangoNodeStorage"
 SENTRY_NODESTORE_OPTIONS = {
@@ -151,9 +153,27 @@ SENTRY_NODESTORE_OPTIONS = {
     "bucket_path": "nodestore",
     "bucket_name": "nodestore",
     "region_name": "us-east-1",
-    "aws_access_key_id": env("SEAWEEDFS_ACCESS_KEY", "sentry"),
-    "aws_secret_access_key": env("SEAWEEDFS_SECRET_KEY", "sentry"),
+    "aws_access_key_id": _seaweedfs_access_key,
+    "aws_secret_access_key": _seaweedfs_secret_key,
 }
+
+# Override profiles filestore from env so config.yml placeholder is never used.
+SENTRY_OPTIONS["filestore.profiles-options"] = {
+    "bucket_acl": "private",
+    "default_acl": "private",
+    "access_key": _seaweedfs_access_key,
+    "secret_key": _seaweedfs_secret_key,
+    "bucket_name": "profiles",
+    "region_name": "us-east-1",
+    "endpoint_url": _seaweedfs_url,
+    "addressing_style": "path",
+    "signature_version": "s3v4",
+}
+
+# Override internal URL prefix so Relay and workers can reach web.
+_internal_url = env("SENTRY_INTERNAL_URL_PREFIX", "")
+if _internal_url:
+    SENTRY_OPTIONS["system.internal-url-prefix"] = _internal_url
 
 #########
 # Redis #

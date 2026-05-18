@@ -53,7 +53,7 @@ system.url-prefix: 'http://localhost:9000'
 
 # Internal URL used by containers to reach the Sentry web service.
 # On Railway, web service is reachable at web.railway.internal:9000
-system.internal-url-prefix: 'http://web.railway.internal:9000'
+system.internal-url-prefix: 'http://localhost:9000'
 
 # The secret key must be set via SENTRY_SYSTEM_SECRET_KEY env var.
 # This placeholder is overridden in sentry.conf.py.
@@ -98,7 +98,7 @@ filestore.profiles-options:
   secret_key: "sentry"
   bucket_name: "profiles"
   region_name: "us-east-1"
-  endpoint_url: "http://seaweedfs.railway.internal:8333"
+  endpoint_url: "http://localhost:8333"
   addressing_style: "path"
   signature_version: "s3v4"
 
