@@ -1,4 +1,4 @@
-ARG SENTRY_IMAGE
+ARG SENTRY_IMAGE=ghcr.io/getsentry/sentry:nightly
 FROM ${SENTRY_IMAGE}
 
 RUN pip install https://github.com/getsentry/sentry-nodestore-s3/archive/main.zip
