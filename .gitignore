@@ -94,7 +94,7 @@ sentry/enhance-image.sh
 sentry/requirements.txt
 relay/credentials.json
 relay/config.yml
-symbolicator/config.yml
+# symbolicator/config.yml tracked for Railway (no secrets, uses env vars)
 geoip/GeoIP.conf
 geoip/*.mmdb
 geoip/.geoipupdate.lock
