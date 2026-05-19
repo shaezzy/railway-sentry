@@ -16,32 +16,7 @@ def unit_text_to_bytes(text):
 
 
 # Generously adapted from pynetlinux: https://github.com/rlisagor/pynetlinux/blob/e3f16978855c6649685f0c43d4c3fcf768427ae5/pynetlinux/ifconfig.py#L197-L223
-def get_internal_network():
-    import ctypes
-    import fcntl
-    import math
-    import socket
-    import struct
-
-    iface = b"eth0"
-    sockfd = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    ifreq = struct.pack(b"16sH14s", iface, socket.AF_INET, b"\x00" * 14)
-
-    try:
-        ip = struct.unpack(
-            b"!I", struct.unpack(b"16sH2x4s8x", fcntl.ioctl(sockfd, 0x8915, ifreq))[2]
-        )[0]
-        netmask = socket.ntohl(
-            struct.unpack(b"16sH2xI8x", fcntl.ioctl(sockfd, 0x891B, ifreq))[2]
-        )
-    except IOError:
-        return ()
-    base = socket.inet_ntoa(struct.pack(b"!I", ip & netmask))
-    netmask_bits = 32 - int(round(math.log(ctypes.c_uint32(~netmask).value + 1, 2), 1))
-    return "{0:s}/{1:d}".format(base, netmask_bits)
-
-
-INTERNAL_SYSTEM_IPS = (get_internal_network(),)
+INTERNAL_SYSTEM_IPS = ()
 
 ###########
 # Database #
