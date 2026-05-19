@@ -9,4 +9,4 @@ if [ -e /etc/sentry/requirements.txt ]; then
   echo "sentry/requirements.txt is deprecated, use sentry/enhance-image.sh - see https://develop.sentry.dev/self-hosted/#enhance-sentry-image"
 fi
 
-exec /docker-entrypoint.sh "$@"
+source /docker-entrypoint.sh

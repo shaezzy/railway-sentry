@@ -8,7 +8,8 @@
     }
   },
   "deploy": {
-    "startCommand": "sentry upgrade --noinput && exec /etc/sentry/entrypoint.sh run web",
+    "preDeployCommand": ["sentry upgrade --noinput --create-kafka-topics"],
+    "startCommand": "/etc/sentry/entrypoint.sh run web",
     "healthcheckPath": "/_health/",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
